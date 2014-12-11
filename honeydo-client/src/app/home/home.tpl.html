@@ -1,0 +1,32 @@
+<div ng-hide="currentUser.isLoggedIn()" class="jumbotron">
+    <div class="container">
+        <h1>HoneyDo</h1>
+        <p>Your spouse has things for you to do.  What are you waiting for?</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+    </div>
+</div>
+<div ng-hide="!currentUser.isLoggedIn()">
+    <div class="searchOptions clearfix">
+        <span class="dropdown pull-right" dropdown>
+            <a href class="btn btn-primary dropdown-toggle" dropdown-toggle>
+                {{sortBy}} <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li ng-repeat="sortBy in sortByOptions">
+                    <a ng-click="sort(sortBy)">{{sortBy}}</a>
+                </li>
+            </ul>
+        </span>
+    </div>
+    <div class="list-group">
+        <div class="list-group-item"
+             ng-repeat="task in tasks | orderBy:sortBy">
+            <span class="badge">{{task.priority}}</span>
+            <a class="pull-right" href="#"><span class="glyphicon glyphicon-ok"/></a>
+            <a class="pull-right" href="#"><span class="glyphicon glyphicon-pencil"/></a>
+            <a class="pull-right" href="#"><span class="glyphicon glyphicon-trash"/></a>
+            <h4 class="list-group-item-heading">{{task.name}} ({{task.dueDate | date : 'shortDate'}})</h4>
+        </div>
+    </div>
+</div>
+

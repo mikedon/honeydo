@@ -1,0 +1,2 @@
+rootProject.name="honeydo"
+include "honeydo-server","honeydo-client"

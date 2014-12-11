@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h3 class="modal-title">Create Task</h3>
+</div>
+<div class="modal-body">
+    <form name="createTask">
+        <div ngc-input label="Name" required-msg="Value is required">
+            <input type="name"
+                   id="name"
+                   name="Name"
+                   required
+                   ng-model="task.name">
+        </div>
+        <div ngc-input label="Due Date" required-msg="Value is required">
+            <input type="text"
+                   datepicker-popup="MM/dd/yyyy"
+                   ng-model="task.dueDate"
+                   is-open="opened"
+                   ng-required="true"
+                   close-text="Close"/>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default"
+                      ng-click="open($event)">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="create()">Create</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>
