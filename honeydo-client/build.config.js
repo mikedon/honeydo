@@ -68,12 +68,6 @@ module.exports = {
 	  'bower_components/angular-route/angular-route.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/ng-commons/dist/ng-commons-0.0.0.js'
-      //'bower_components/ng-commons/src/input/input.js',
-      //'bower_components/ng-commons/src/loading/loading.js',
-      //'bower_components/ng-commons/src/navbar/navbar.js',
-      //'bower_components/ng-commons/src/navbarLink/navbarLink.js',
-      //'bower_components/ng-commons/ng-commons-tpls.js'
-
     ],
     css: [
     ],
