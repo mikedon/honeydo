@@ -73,6 +73,9 @@ app.run(['$rootScope', '$location', '$timeout', 'User',
 
 app.controller('NavbarCtrl', ['$scope', 'User', '$modal',
     function($scope, User, $modal){
+        $scope.login = function(){
+            User.login("");
+        };
         $scope.logout = function(){
             User.logout('login');
         };

@@ -14,42 +14,36 @@
   </head>
   <body>
 	 <div id="wrap" ng-controller="NavbarCtrl">
-        <form name="navbarForm" novalidate>
         <ngc-navbar brand="HoneyDo" brand-img="assets/img/icon.png">
-            <li ng-show="!currentUser.isLoggedIn()" ngc-input>
-                <input type="userId"
-                       id="userId"
-                       name="userId"
-                       placeholder="User Id"
-                       required
-                       ng-model="login.userId">
-            </li>
-            <li ng-show="!currentUser.isLoggedIn()" ngc-input>
-                <input type="password"
-                       id="password"
-                       name="password"
-                       placeholder="Password"
-                       required
-                       ng-model="login.password">
-            </li>
-            <li ng-show="!currentUser.isLoggedIn()">
-                <button class="btn btn-default btn-primary" ng-click="submit()">Sign In</button>
-            </li>
-            <li ng-show="currentUser.isLoggedIn()">
-                <button class="btn btn-default btn-primary" ng-click="openCreateTaskModal()">
-                    <span class="glyphicon glyphicon-plus">Create</span>
+            <form name="navbarForm" class="navbar-form navbar-left" novalidate>
+                <span ng-show="!currentUser.isLoggedIn()" ngc-input>
+                    <input type="userId"
+                           id="userId"
+                           name="userId"
+                           placeholder="User Id"
+                           required
+                           ng-model="currentUser.username">
+                </span>
+                <span class="form-group" ng-show="!currentUser.isLoggedIn()" ngc-input>
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           placeholder="Password"
+                           required
+                           ng-model="currentUser.password">
+                </span>
+                <button ng-show="!currentUser.isLoggedIn()" class="btn btn-default btn-primary" ng-click="login()">Sign In</button>
+                <button ng-show="currentUser.isLoggedIn()" class="btn btn-default btn-primary" ng-click="openCreateTaskModal()">
+                    <span class="glyphicon glyphicon-plus"> Create</span>
                 </button>
-            </li>
-            <!--<navbar-link href="#/foodtruck/profile" show="currentUser.hasRole('Food Truck')" label="Profile"></navbar-link>
-            <navbar-link href="#/foodie/profile" show="currentUser.hasRole('Foodie')" label="Profile"></navbar-link>
-            <navbar-link href="#/foodtruck/elections" show="currentUser.hasRole('Food Truck')" label="My Elections"></navbar-link>-->
-            <ngc-navbar-link href="#/login" show="!currentUser.isLoggedIn()" label="Register"></ngc-navbar-link>
+            </form>
+            <ngc-navbar-link link-class="navbar-btn btn btn-default" href="#/login" show="!currentUser.isLoggedIn()" label="Register"></ngc-navbar-link>
             <li ng-show="currentUser.isLoggedIn()">
-                <div class="salutation">Hello {{currentUser.firstName}}!</div>
+                <div class="navbar-text">Hello {{currentUser.firstName}}!</div>
             </li>
-            <ngc-navbar-link show="currentUser.isLoggedIn()" click="logout()" label="Log Out"></ngc-navbar-link>
+            <ngc-navbar-link link-class="navbar-btn btn btn-default" show="currentUser.isLoggedIn()" click="logout()" label="Log Out"></ngc-navbar-link>
+
         </ngc-navbar>
-        </form>
  		<div ngc-loading image="assets/img/ajax-loader.gif">
         <div id="main" class="container clear-top">
             <alert ng-repeat="alert in alerts" type="alert.type">{{alert.message}}</alert>

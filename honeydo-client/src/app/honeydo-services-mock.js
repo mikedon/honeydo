@@ -1,11 +1,30 @@
 app.run(function($httpBackend, apiUrl, authenticationUrl){
+    var loggedIn = false;
+
     var user = {
         username: "jdoe",
         firstName: "John",
         lastName: "Doe",
         roles: ["User"]
     };
-    $httpBackend.whenGET(authenticationUrl + 'api/user/secure/currentUser').respond(user);
+
+    $httpBackend.whenGET(authenticationUrl + 'api/user/secure/currentUser').respond(function(method, url, data){
+        if(loggedIn){
+            return [200, user, {}];
+        }else{
+            return [200, null, {}];
+        }
+    });
+
+    $httpBackend.whenPOST(authenticationUrl + 'j_spring_security_check').respond(function(method, url, data){
+        loggedIn = true;
+        return [200, user, {}];
+    });
+
+    $httpBackend.whenGET(authenticationUrl + 'j_spring_security_logout').respond(function(method, url, data){
+        loggedIn = false;
+       return [200, {}, {}];
+    });
 
     var tasks = [
         {
