@@ -25,6 +25,11 @@ app.config(["$routeProvider", "$tooltipProvider", "$httpProvider", function($rou
         access: {requiresLogin: false, role : ""}
     });
 
+    $routeProvider.when('/registration', {
+        templateUrl:'registration/registration.tpl.html',
+        controller: 'RegistrationCtrl'
+    });
+
 	$routeProvider.otherwise({redirectTo: '/home'});
 }]);
 

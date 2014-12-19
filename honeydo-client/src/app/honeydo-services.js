@@ -10,6 +10,19 @@ app.factory('HoneyDoResource', function($resource, BaseResource, $location, $roo
             newTask.dueDate = task.dueDate;
             newTask.priority = task.priority;
             BaseResource.save(newTask, onSuccess);
+        },
+        register : function(registration, redirect){
+            var Registration = $resource(apiUrl + 'api/register');
+            var newRegistration = new Registration();
+            newRegistration.firstName = registration.firstName;
+            newRegistration.lastName = registration.lastName;
+            newRegistration.userId = registration.userId;
+            newRegistration.password = registration.password;
+            newRegistration.spouse = registration.spouse;
+            BaseResource.save(newRegistration, function(){
+                $rootScope.clearAlerts = false;
+                $location.path(redirect);
+            });
         }
     };
 });

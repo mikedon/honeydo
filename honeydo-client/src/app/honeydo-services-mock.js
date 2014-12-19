@@ -23,7 +23,7 @@ app.run(function($httpBackend, apiUrl, authenticationUrl){
 
     $httpBackend.whenGET(authenticationUrl + 'j_spring_security_logout').respond(function(method, url, data){
         loggedIn = false;
-       return [200, {}, {}];
+        return [200, {}, {}];
     });
 
     var tasks = [
@@ -55,5 +55,10 @@ app.run(function($httpBackend, apiUrl, authenticationUrl){
         task.dueDate = new Date(task.dueDate);
         tasks.push(task);
         return [200, task, {}];
+    });
+
+    $httpBackend.whenPOST(authenticationUrl + 'api/register').respond(function(method, url, data){
+        loggedIn = true;
+        return [200, user, {}];
     });
 });

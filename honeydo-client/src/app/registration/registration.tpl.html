@@ -1,0 +1,40 @@
+<div class="registration-wrapper">
+    <h2>Registration</h2>
+    <form name="registrationForm" novalidate>
+        <div ngc-input label="Spouse">
+            <input type="text"
+                   id="spouse"
+                   name="spouse"
+                   ng-model="registration.spouse"/>
+        </div>
+        <div ngc-input label="First Name" required-msg="Value is required">
+            <input type="text"
+                   id="firstName"
+                   name="firstName"
+                   ng-model="registration.firstName"
+                   required/>
+        </div>
+        <div ngc-input label="Last Name" required-msg="Value is required">
+            <input type="text"
+                   id="lastName"
+                   name="lastName"
+                   ng-model="registration.lastName"
+                   required/>
+        </div>
+        <div ngc-input label="User Id" required-msg="Value is required">
+            <input type="text"
+                   id="userId"
+                   name="userId"
+                   ng-model="registration.userId"
+                   required/>
+        </div>
+        <div ngc-input label="Password" required-msg="Value is required">
+            <input type="password"
+                   id="password"
+                   name="password"
+                   ng-model="registration.password"
+                   required/>
+        </div>
+        <button class="btn btn-default btn-primary pull-right" ng-click="register()">Submit</button>
+    </form>
+</div>
