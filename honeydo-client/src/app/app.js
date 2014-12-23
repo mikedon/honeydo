@@ -27,7 +27,12 @@ app.config(["$routeProvider", "$tooltipProvider", "$httpProvider", function($rou
 
     $routeProvider.when('/registration', {
         templateUrl:'registration/registration.tpl.html',
-        controller: 'RegistrationCtrl'
+        controller: 'RegistrationCtrl',
+        resolve: {
+            spouses: ['HoneyDoResource', function(HoneyDoResource){
+                return HoneyDoResource.getSpouses().$promise;
+            }]
+        }
     });
 
 	$routeProvider.otherwise({redirectTo: '/home'});

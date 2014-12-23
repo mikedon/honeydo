@@ -1,5 +1,8 @@
 app.factory('HoneyDoResource', function($resource, BaseResource, $location, $rootScope, $filter, apiUrl){
     return {
+        getSpouses: function() {
+            return BaseResource.query($resource(apiUrl + 'api/spouses'));
+        },
         getTasks : function() {
             return BaseResource.query($resource(apiUrl + 'api/task/search'));
         },

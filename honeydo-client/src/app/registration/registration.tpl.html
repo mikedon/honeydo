@@ -5,7 +5,10 @@
             <input type="text"
                    id="spouse"
                    name="spouse"
+                   typeahead="spouse as spouse.fullName for spouse in spouses | limitTo:8"
+                   typeahead-loading="loadingSpouses"
                    ng-model="registration.spouse"/>
+            <i ng-show="loadingSpouses" class="glyphicon glyphicon-refresh"></i>
         </div>
         <div ngc-input label="First Name" required-msg="Value is required">
             <input type="text"

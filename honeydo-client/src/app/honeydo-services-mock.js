@@ -61,4 +61,25 @@ app.run(function($httpBackend, apiUrl, authenticationUrl){
         loggedIn = true;
         return [200, user, {}];
     });
+
+    var spouses = [
+        {
+            fullName: "Michelle Donovan",
+            id: 1
+        },
+        {
+            fullName: "Joan Jett",
+            id: 2
+        },
+        {
+            fullName: "Britney Spears",
+            id: 3
+        },
+        {
+            fullName: "Michelle Obama",
+            id: 4
+        }
+    ];
+
+    $httpBackend.whenGET(authenticationUrl + 'api/spouses').respond(spouses);
 });
