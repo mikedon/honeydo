@@ -28,27 +28,45 @@ app.run(function($httpBackend, apiUrl, authenticationUrl){
 
     var tasks = [
         {
+            id: 1,
             name : "Clean the gutters",
             priority : 2,
             dueDate : new Date(2015, 2, 10)
         },
         {
+            id: 2,
             name : "Fix the leak in the basement",
             priority : 1,
             dueDate : new Date(2015, 2, 10)
         },
         {
+            id: 3,
             name : "Hang the TV in the basement",
             priority : 4,
             dueDate : new Date(2015, 2, 1)
         },
         {
+            id: 4,
             name : "Paint the guest bedroom in the basement",
             priority : 3,
             dueDate : new Date(2015,1,15)
         }
     ];
     $httpBackend.whenGET(authenticationUrl + 'api/task/search').respond(tasks);
+    $httpBackend.whenGET(authenticationUrl + 'api/tasks').respond(tasks);
+    $httpBackend.whenDELETE(/*\/api\/tasks\/d*/).respond(function(method, url, data){
+        var urlParts = url.split("/");
+        var id = urlParts[urlParts.length - 1];
+        var indexToRemove;
+        for(var i = 0; i < tasks.length; i++){
+            if(tasks[i].id === id){
+                indexToRemove = i;
+                break;
+            }
+        }
+        tasks.splice(indexToRemove, 1);
+        return [200, {}, {}];
+    });
 
     $httpBackend.whenPOST(authenticationUrl + 'api/secure/task/create').respond(function(method, url, data) {
         var task = angular.fromJson(data);

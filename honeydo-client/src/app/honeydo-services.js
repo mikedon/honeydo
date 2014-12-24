@@ -3,9 +3,6 @@ app.factory('HoneyDoResource', function($resource, BaseResource, $location, $roo
         getSpouses: function() {
             return BaseResource.query($resource(apiUrl + 'api/spouses'));
         },
-        getTasks : function() {
-            return BaseResource.query($resource(apiUrl + 'api/task/search'));
-        },
         createTask : function(task, onSuccess){
             var Task = $resource(apiUrl + 'api/secure/task/create');
             var newTask = new Task();
@@ -28,6 +25,10 @@ app.factory('HoneyDoResource', function($resource, BaseResource, $location, $roo
             });
         }
     };
+});
+
+app.factory('Task', function($resource, apiUrl){
+    return $resource(apiUrl + "api/tasks/:id", {id : "@id"});
 });
 
 
