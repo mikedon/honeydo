@@ -21,10 +21,10 @@
     <div class="list-group">
         <div class="list-group-item"
              ng-repeat="task in tasks | orderBy:sortBy">
-            <span class="badge">{{task.priority}}</span>
-            <a class="pull-right" href="#"><span class="glyphicon glyphicon-ok"/></a>
-            <a class="pull-right" href="#"><span class="glyphicon glyphicon-pencil"/></a>
-            <a class="pull-right" href="#"><span class="glyphicon glyphicon-trash"/></a>
+            <span class="task-action-list badge">{{task.priority}}</span>
+            <a class="task-action-list pull-right" ng-click="complete(task)"><span class="glyphicon glyphicon-ok"/></a>
+            <a class="task-action-list pull-right" ng-href="/tasks/{{task.id}}"><span class="glyphicon glyphicon-pencil"/></a>
+            <a class="task-action-list pull-right" ng-click="deleteTask(task)"><span class="glyphicon glyphicon-trash"/></a>
             <h4 class="list-group-item-heading">{{task.name}} ({{task.dueDate | date : 'shortDate'}})</h4>
         </div>
     </div>
