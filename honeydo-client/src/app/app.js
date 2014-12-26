@@ -16,21 +16,31 @@ app.config(["$routeProvider", "$tooltipProvider", "$httpProvider", function($rou
 
 	$routeProvider.when('/home', {
 		templateUrl:'home/home.tpl.html',
-        controller: 'HomeCtrl',
 		resolve: {
             user: ['User', function(User){
                 return User.initialize();
             }]
-        },
-        access: {requiresLogin: false, role : ""}
+        }
     });
-
+    $routeProvider.when('/task/search', {
+       templateUrl: 'task/search.tpl.html',
+        controller: 'TaskSearchCtrl',
+        resolve: {
+            user : ['User', function(User){
+                return User.initialize();
+            }],
+            tasks : ['data', function(data){
+                return data.query("tasks");
+            }]
+        },
+        access: {requiresLogin: true, role: "User"}
+    });
     $routeProvider.when('/registration', {
         templateUrl:'registration/registration.tpl.html',
         controller: 'RegistrationCtrl',
         resolve: {
-            spouses: ['HoneyDoResource', function(HoneyDoResource){
-                return HoneyDoResource.getSpouses().$promise;
+            spouses: ['data', function(data){
+                return data.query("spouses");
             }]
         }
     });
@@ -43,8 +53,11 @@ app.config(["$routeProvider", "$tooltipProvider", "$httpProvider", function($rou
  *
  * http://blog.brunoscopelliti.com/show-route-only-after-all-promises-are-resolved
  */
-app.run(['$rootScope', '$location', '$timeout', 'User',
-    function ($root, $location, $timeout, User){
+app.run(['$rootScope', '$location', '$timeout', 'User', 'api',
+    function ($root, $location, $timeout, User, api){
+        api.add("tasks");
+        api.add("spouses");
+
         $root.$on('$routeChangeStart', function(e, curr, prev) {
             if (curr.$$route && curr.$$route.resolve) {
                 // Show a loading message until promises are not resolved
@@ -81,16 +94,16 @@ app.run(['$rootScope', '$location', '$timeout', 'User',
     }
 ]);
 
+
 app.controller('NavbarCtrl', ['$scope', 'User', '$modal',
     function($scope, User, $modal){
         $scope.login = function(){
-            User.login("");
+            User.login("task/search");
         };
         $scope.logout = function(){
-            User.logout('login');
+            User.logout('home');
         };
         $scope.currentUser = User;
-
         $scope.openCreateTaskModal = function() {
             var createTaskModalInstance = $modal.open({
                 templateUrl: 'task/task-create-modal.tpl.html',
@@ -110,8 +123,8 @@ app.controller('NavbarCtrl', ['$scope', 'User', '$modal',
     }
 ]);
 
-app.controller('CreateTaskModalInstanceCtrl', ['$scope', '$rootScope','$modalInstance', 'HoneyDoResource',
-    function($scope, $rootScope, $modalInstance, HoneyDoResource){
+app.controller('CreateTaskModalInstanceCtrl', ['$scope', '$rootScope','$modalInstance', 'data',
+    function($scope, $rootScope, $modalInstance, data){
         $scope.task = {};
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
@@ -122,10 +135,11 @@ app.controller('CreateTaskModalInstanceCtrl', ['$scope', '$rootScope','$modalIns
             $scope.opened = true;
         };
         $scope.create = function(){
-            HoneyDoResource.createTask($scope.task, function(data){
+            data.save("tasks", $scope.task).then(function(data){
                 $rootScope.$emit('task.create', data);
                 $modalInstance.close();
             });
+           
         };
     }
 ]);

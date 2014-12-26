@@ -1,15 +1,13 @@
-app.controller('HomeCtrl', ['$scope', '$rootScope', '$location', 'User', 'Task',
-    function($scope, $rootScope, $location, User, Task){
-        $scope.currentUser = User;
-        $scope.tasks = Task.query();
+app.controller('TaskSearchCtrl', ['$scope', '$rootScope', '$location', 'data', 'tasks',
+    function($scope, $rootScope, $location, data, tasks){
+        $scope.tasks = tasks;
         $scope.sort = function(sortBy){
             $scope.sortBy = sortBy;
         };
         $scope.deleteTask = function(task){
             var idToDelete = task.id;
             var indexOf;
-            task = new Task({"id" : task.id});
-            task.$delete(function(){
+            data.remove('tasks', task).then(function(){
                 for(var i=0; i < $scope.tasks.length; i++){
                     if($scope.tasks[i].id === idToDelete){
                         indexOf = i;

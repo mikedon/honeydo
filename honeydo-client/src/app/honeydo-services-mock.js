@@ -52,8 +52,9 @@ app.run(function($httpBackend, apiUrl, authenticationUrl){
             dueDate : new Date(2015,1,15)
         }
     ];
-    $httpBackend.whenGET(authenticationUrl + 'api/task/search').respond(tasks);
-    $httpBackend.whenGET(authenticationUrl + 'api/tasks').respond(tasks);
+    $httpBackend.whenGET(/api\/tasks/).respond(function(method, url, data){
+        return [200, tasks, {}];
+    });
     $httpBackend.whenDELETE(/*\/api\/tasks\/d*/).respond(function(method, url, data){
         var urlParts = url.split("/");
         var id = urlParts[urlParts.length - 1];
@@ -68,7 +69,7 @@ app.run(function($httpBackend, apiUrl, authenticationUrl){
         return [200, {}, {}];
     });
 
-    $httpBackend.whenPOST(authenticationUrl + 'api/secure/task/create').respond(function(method, url, data) {
+    $httpBackend.whenPOST(/api\/tasks/).respond(function(method, url, data) {
         var task = angular.fromJson(data);
         task.dueDate = new Date(task.dueDate);
         tasks.push(task);
@@ -99,5 +100,7 @@ app.run(function($httpBackend, apiUrl, authenticationUrl){
         }
     ];
 
-    $httpBackend.whenGET(authenticationUrl + 'api/spouses').respond(spouses);
+    $httpBackend.whenGET(/^\/api\/spouses/).respond(function(method, url, data){
+        return [200, spouses, {}];
+    });
 });
