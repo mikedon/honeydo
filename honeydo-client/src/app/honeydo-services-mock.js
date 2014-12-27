@@ -76,7 +76,7 @@ app.run(function($httpBackend, apiUrl, authenticationUrl){
         task.alerts = [{
             type: "success",
             message: "Task successfully created!"
-        }]
+        }];
         return [200, task, {}];
     });
 
