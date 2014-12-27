@@ -27,3 +27,42 @@ app.controller('TaskSearchCtrl', ['$scope', '$rootScope', '$location', 'data', '
         $scope.sortBy = $scope.sortByOptions[0];
     }
 ]);
+
+app.controller('CreateTaskModalInstanceCtrl', ['$scope', '$rootScope','$modalInstance', 'data',
+    function($scope, $rootScope, $modalInstance, data){
+        $scope.priorities = [
+            {
+                name: "Critical",
+                value: 1
+            },
+            {
+                name: "High",
+                value: 2
+            },
+            {
+                name: "Medium",
+                value: 3
+            },
+            {
+                name: "Low",
+                value: 4
+            }
+        ];
+        $scope.task = {};
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+        $scope.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.opened = true;
+        };
+        $scope.create = function(){
+            data.save("tasks", $scope.task).then(function(data){
+                $rootScope.$emit('task.create', data);
+                $modalInstance.close();
+            });
+
+        };
+    }
+]);
