@@ -73,11 +73,19 @@ app.run(function($httpBackend, apiUrl, authenticationUrl){
         var task = angular.fromJson(data);
         task.dueDate = new Date(task.dueDate);
         tasks.push(task);
+        task.alerts = [{
+            type: "success",
+            message: "Task successfully created!"
+        }]
         return [200, task, {}];
     });
 
-    $httpBackend.whenPOST(authenticationUrl + 'api/register').respond(function(method, url, data){
+    $httpBackend.whenPOST(/api\/users/).respond(function(method, url, data){
         loggedIn = true;
+        user.alerts = [{
+            type: "success",
+            message: "Thank you for registering!"
+        }];
         return [200, user, {}];
     });
 

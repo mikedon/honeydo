@@ -3,26 +3,40 @@
 </div>
 <div class="modal-body">
     <form name="createTask">
-        <div ngc-input label="Name" required-msg="Value is required">
-            <input type="name"
-                   id="name"
-                   name="Name"
-                   required
-                   ng-model="task.name">
+        <div class="row">
+            <div class="col-xs-6" ngc-input label="Name" required-msg="Value is required">
+                <input type="name"
+                       id="name"
+                       name="Name"
+                       required
+                       ng-model="task.name">
+            </div>
+            <div class="col-xs-6" ngc-input label="Due Date" required-msg="Value is required">
+                <input type="text"
+                       style="display: inline-block; width: 80%"
+                       datepicker-popup="MM/dd/yyyy"
+                       ng-model="task.dueDate"
+                       is-open="opened"
+                       ng-required="true"
+                       close-text="Close"/>
+                <span>
+                    <button type="button" class="btn btn-default"
+                          ng-click="open($event)">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                </span>
+            </div>
         </div>
-        <div ngc-input label="Due Date" required-msg="Value is required">
-            <input type="text"
-                   datepicker-popup="MM/dd/yyyy"
-                   ng-model="task.dueDate"
-                   is-open="opened"
-                   ng-required="true"
-                   close-text="Close"/>
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-default"
-                      ng-click="open($event)">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                </button>
-            </span>
+        <div class="row">
+            <div class="col-xs-6" ngc-input label="Priority" required-msg="Value is required">
+                <select id="priority" class="form-control"
+                        name="priority"
+                        ng-model="task.priority"
+                        ng-options="p.value as p.name for p in priorities"
+                        required>
+                    <option value=""></option>
+                </select>
+            </div>
         </div>
     </form>
 </div>

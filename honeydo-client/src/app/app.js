@@ -57,6 +57,7 @@ app.run(['$rootScope', '$location', '$timeout', 'User', 'api',
     function ($root, $location, $timeout, User, api){
         api.add("tasks");
         api.add("spouses");
+        api.add("users");
 
         $root.$on('$routeChangeStart', function(e, curr, prev) {
             if (curr.$$route && curr.$$route.resolve) {
@@ -94,7 +95,6 @@ app.run(['$rootScope', '$location', '$timeout', 'User', 'api',
     }
 ]);
 
-
 app.controller('NavbarCtrl', ['$scope', 'User', '$modal',
     function($scope, User, $modal){
         $scope.login = function(){
@@ -125,6 +125,24 @@ app.controller('NavbarCtrl', ['$scope', 'User', '$modal',
 
 app.controller('CreateTaskModalInstanceCtrl', ['$scope', '$rootScope','$modalInstance', 'data',
     function($scope, $rootScope, $modalInstance, data){
+        $scope.priorities = [
+            {
+                name: "Critical",
+                value: 1
+            },
+            {
+                name: "High",
+                value: 2
+            },
+            {
+                name: "Medium",
+                value: 3
+            },
+            {
+                name: "Low",
+                value: 4
+            }
+        ];
         $scope.task = {};
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
@@ -139,7 +157,7 @@ app.controller('CreateTaskModalInstanceCtrl', ['$scope', '$rootScope','$modalIns
                 $rootScope.$emit('task.create', data);
                 $modalInstance.close();
             });
-           
+
         };
     }
 ]);

@@ -1,14 +1,17 @@
-app.controller('RegistrationCtrl', ['$scope', '$rootScope', 'HoneyDoResource', 'spouses',
-    function($scope, $rootScope, HoneyDoResource, spouses){
+app.controller('RegistrationCtrl', ['$scope', '$rootScope', '$location', 'data', 'spouses',
+    function($scope, $rootScope, $location, data, spouses){
         $scope.registration = {};
         $scope.spouses = spouses;
         $scope.register = function(){
             if($scope.registrationForm.$valid){
-                var path = "home";
+                var path = "task/search";
                 if($rootScope.captureRedirect){
                     path = $rootScope.captureRedirect;
                 }
-                HoneyDoResource.register($scope.registration, path);
+                data.save("users", $scope.registration).then(function(data){
+                    $rootScope.clearAlerts = false;
+                    $location.path(path);
+                });
             }else{
                 $scope.registrationForm.submitted = true;
             }

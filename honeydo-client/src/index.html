@@ -46,7 +46,7 @@
         </ngc-navbar>
  		<div ngc-loading image="assets/img/ajax-loader.gif">
         <div id="main" class="container clear-top">
-            <alert ng-repeat="alert in alerts" type="alert.type">{{alert.message}}</alert>
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.message}}</alert>
             <div ng-view></div>
         </div>
     </div>
