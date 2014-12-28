@@ -21,7 +21,7 @@ var TaskSearchPage  = function(){
     };
 
     this.setTaskPriority = function(priority){
-        this.taskPriority.element(by.tagName('option'))
+        this.taskPriority.all(by.tagName('option'))
             .then(function(options) {
                 for(var i = 0; i < options.length; i++){
                     var option = options[i];
@@ -39,15 +39,14 @@ var TaskSearchPage  = function(){
         return this;
     };
 
-    this.getTaskNames = function(){
-        return element.all(by.css(".list-group-item > h4"))
-            .then(function(tasks){
-                var taskNames = [];
-                for(var i = 0; i < tasks.length; i++){
-                    taskNames.push(tasks[i].getText());
-                }
-                return taskNames;
-            });
+    this.getTaskNames = function(){git
+        return element.all(by.repeater("task in tasks")).then(function(tasks){
+            var taskNames = [];
+            for(var i = 0; i < tasks.length; i++){
+                taskNames.push(tasks[i].getText());
+            }
+            return taskNames;
+        });
     };
 
 };

@@ -35,7 +35,7 @@ var RegistrationPage = function(){
         })
     };
     this.validationFailed = function(){
-        var form = element(by.tagName("form"));
+        var form = element(by.css("form[name='registrationForm']"));
         expect(this.hasClass(form, "ng-invalid")).toBe(true);
     };
     this.requiredInputsInvalid = function(){

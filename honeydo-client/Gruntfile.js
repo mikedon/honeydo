@@ -503,8 +503,12 @@ module.exports = function ( grunt ) {
     'copy:build_appjs', 'copy:build_vendorjs', 'index:build'
   ]);
 
-  grunt.registerTask('test', [
-      'build', 'karmaconfig', 'karma:continuous', 'connect', 'protractor_webdriver', 'protractor:run'
+  grunt.registerTask('unit', [
+      'build', 'karmaconfig', 'karma:continuous'
+  ]);
+
+  grunt.registerTask('e2e', [
+      'build', 'connect', 'protractor_webdriver', 'protractor:run'
   ]);
 
   /**
