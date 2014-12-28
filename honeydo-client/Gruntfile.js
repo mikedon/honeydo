@@ -492,7 +492,7 @@ module.exports = function ( grunt ) {
   /**
    * The default task is to build and compile.
    */
-  grunt.registerTask( 'default', [ 'build', 'compile' ] );
+  grunt.registerTask( 'default', [ 'build', 'unit', 'e2e', 'compile' ] );
 
   /**
    * The `build` task gets your app ready to run for development and testing.
@@ -504,11 +504,11 @@ module.exports = function ( grunt ) {
   ]);
 
   grunt.registerTask('unit', [
-      'build', 'karmaconfig', 'karma:continuous'
+      'karmaconfig', 'karma:continuous'
   ]);
 
   grunt.registerTask('e2e', [
-      'build', 'connect', 'protractor_webdriver', 'protractor:run'
+      'connect', 'protractor_webdriver', 'protractor:run'
   ]);
 
   /**
@@ -516,7 +516,7 @@ module.exports = function ( grunt ) {
    * minifying your code.
    */
   grunt.registerTask( 'compile', [
-    'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
+    'clean', 'build', 'unit', 'e2e', 'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
   ]);
 
   grunt.loadNpmTasks('grunt-contrib-connect');

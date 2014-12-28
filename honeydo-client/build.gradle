@@ -1,6 +1,11 @@
 import org.gradle.api.tasks.Exec
 import com.honeydo.GruntTask
 
+task devInit << {
+    tasks.npm.exeucute();
+    tasks.bower.execute();
+}
+
 task npm(type: Exec) {
     group = "Build"
     description = "Installs all Node.js dependencies defined in package.json"
@@ -30,4 +35,22 @@ task connect(type: GruntTask) {
 task deployClient << {
     tasks.watch.execute()
     tasks.connect.execute()
+}
+
+task clean(type: GruntTask){
+    group = "Clean"
+    description = "grunt clean"
+    gruntArgs = "clean"
+}
+
+task build(type: GruntTask){
+    group = "Build"
+    description = "grunt build"
+    gruntArgs = "build"
+}
+
+task compile(type: GruntTask){
+    group = "Compile"
+    description = "grunt compile"
+    gruntArgs = "compile"
 }
