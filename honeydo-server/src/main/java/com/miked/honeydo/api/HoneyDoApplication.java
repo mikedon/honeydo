@@ -4,8 +4,8 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 /**
- * Created by mdonovan on 3/19/15.
+ * @author miked
  */
-@ApplicationPath("honeydo")
+@ApplicationPath("/")
 public class HoneyDoApplication extends Application{
 }

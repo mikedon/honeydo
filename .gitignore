@@ -1,8 +1,12 @@
 .gradle
+bin
 .idea
 *.iml
 bower_components
 build
 node_modules
-buildSrc/build/classes
+buildSrc/build/*
 dist
+.classpath
+.settings
+.project

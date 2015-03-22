@@ -6,7 +6,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 /**
- * Created by mdonovan on 3/19/15.
+ * @author miked
  */
 @Path("/users")
 @Produces("application/json")
@@ -14,6 +14,6 @@ public class UserResource {
 
     @GET
     public Response getUser() {
-        return null;
+        return Response.ok("Good").build();
     }
 }
