@@ -1,4 +1,5 @@
 .gradle
+.buildpath
 bin
 .idea
 *.iml

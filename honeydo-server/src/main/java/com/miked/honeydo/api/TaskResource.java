@@ -8,12 +8,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-/**
- * @author miked
- */
-@Path("/users")
+@Path("/tasks")
 @Produces("application/json")
-public class UserResource {
+public class TaskResource {
+
 	@GET
 	@Path("/")
 	public Response query(){
@@ -22,19 +20,19 @@ public class UserResource {
 	
 	@GET
 	@Path("{id}")
-	public Response getUser(@PathParam("id") String id){
+	public Response getTask(@PathParam("id") String id){
 		return Response.ok().build();
 	}
 	
 	@POST
 	@Path("/")
-	public Response saveUser(Object user){
+	public Response saveTask(Object task){
 		return Response.ok().build();
 	}
 	
 	@DELETE
 	@Path("{id}")
-	public Response deleteUser(@PathParam("id") String id){
+	public Response deleteTask(@PathParam("id") String id){
 		return Response.ok().build();
 	}
 }
