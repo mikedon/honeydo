@@ -3,18 +3,23 @@ package com.miked.honeydo.domain;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQueries({ @NamedQuery(name = "Task.get", query = "SELECT t FROM Task t WHERE t.id = :id") })
 public class Task {
 
 	@Id
+	@GeneratedValue
 	private Long id;
-	
+
 	private String name;
-	
+
 	private Date dueDate;
-	
+
 	private Integer priority;
 
 	public Long getId() {

@@ -31,6 +31,8 @@ dependencies {
     // Without cargo-ant you'll get following error:
     //   Problem: failed to create task or type cargo
     cargo 'org.codehaus.cargo:cargo-ant:1.4.8'
+    
+    compile "net.sf.dozer:dozer:5.5.1"
 }
 
 cargo {
