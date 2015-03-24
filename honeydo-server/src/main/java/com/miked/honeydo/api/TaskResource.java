@@ -1,5 +1,7 @@
 package com.miked.honeydo.api;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -7,6 +9,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import com.miked.honeydo.service.TaskService;
@@ -21,8 +24,9 @@ public class TaskResource {
 	
 	@GET
 	@Path("/")
-	public Response query(){
-		return Response.ok().build();
+	public Response query(@QueryParam("userId") Long userId){
+		List<Task> tasks = taskService.query(userId);
+		return Response.ok(tasks).build();
 	}
 	
 	@GET
@@ -41,7 +45,8 @@ public class TaskResource {
 	
 	@DELETE
 	@Path("{id}")
-	public Response deleteTask(@PathParam("id") String id){
-		return Response.ok().build();
+	public Response deleteTask(@PathParam("id") Long id){
+		Task returnTask = taskService.deleteTask(id);
+		return Response.ok(returnTask).build();
 	}
 }

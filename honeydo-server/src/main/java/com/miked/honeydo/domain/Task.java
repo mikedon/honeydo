@@ -5,11 +5,15 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "Task.get", query = "SELECT t FROM Task t WHERE t.id = :id") })
+@NamedQueries({
+		@NamedQuery(name = "Task.get", query = "SELECT t FROM Task t WHERE t.id = :id"),
+		@NamedQuery(name = "Task.queryByUser", query = "SELECT t FROM Task t where t.user.id = :userId") })
 public class Task {
 
 	@Id
@@ -21,6 +25,10 @@ public class Task {
 	private Date dueDate;
 
 	private Integer priority;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "user")
+	private User user;
 
 	public Long getId() {
 		return id;
@@ -52,5 +60,13 @@ public class Task {
 
 	public void setPriority(Integer priority) {
 		this.priority = priority;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

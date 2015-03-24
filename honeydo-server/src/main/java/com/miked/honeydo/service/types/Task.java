@@ -8,6 +8,7 @@ public class Task {
 	private String name;
 	private Date dueDate;
 	private Integer priority;
+	private Long userId;
 	
 	public Integer getPriority() {
 		return priority;
@@ -32,5 +33,11 @@ public class Task {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 }

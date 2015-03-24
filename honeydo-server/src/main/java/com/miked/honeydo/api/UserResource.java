@@ -1,5 +1,6 @@
 package com.miked.honeydo.api;
 
+import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -8,12 +9,19 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.miked.honeydo.service.UserService;
+import com.miked.honeydo.service.types.User;
+
 /**
  * @author miked
  */
 @Path("/users")
 @Produces("application/json")
 public class UserResource {
+	
+	@Inject
+	protected UserService userService;
+	
 	@GET
 	@Path("/")
 	public Response query(){
@@ -28,8 +36,9 @@ public class UserResource {
 	
 	@POST
 	@Path("/")
-	public Response saveUser(Object user){
-		return Response.ok().build();
+	public Response saveUser(User user){
+		User returnUser = userService.save(user);
+		return Response.ok(returnUser).build();
 	}
 	
 	@DELETE
