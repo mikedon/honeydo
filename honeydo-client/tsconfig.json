@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "out": "build/out.js", 
+        "sourceMap": true, 
+        "target": "es5"
+    }, 
+    "files": [
+        "src/app/_all.ts"
+    ]
+}

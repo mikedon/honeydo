@@ -11,3 +11,5 @@ dist
 .classpath
 .settings
 .project
+.DS_Store
+.sublime-grunt.cache

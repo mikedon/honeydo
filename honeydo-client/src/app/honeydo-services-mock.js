@@ -1,4 +1,4 @@
-app.run(function($httpBackend, apiUrl, authenticationUrl){
+angular.module('honeydo').run(function($httpBackend, apiUrl, authenticationUrl){
     var loggedIn = false;
 
     var user = {
