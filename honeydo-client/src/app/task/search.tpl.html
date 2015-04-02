@@ -1,22 +1,22 @@
 <div class="searchOptions clearfix">
     <span class="dropdown pull-right" dropdown>
         <a href class="btn btn-primary dropdown-toggle" dropdown-toggle>
-            {{sortBy}} <span class="caret"></span>
+            {{sortBy.name}} <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
             <li ng-repeat="sortBy in sortByOptions">
-                <a ng-click="sort(sortBy)">{{sortBy}}</a>
+                <a ng-click="events.sort(sortBy)">{{sortBy.name}}</a>
             </li>
         </ul>
     </span>
 </div>
 <div class="list-group">
     <div class="list-group-item"
-         ng-repeat="task in tasks | orderBy:sortBy">
+         ng-repeat="task in tasks | orderBy:sortBy.value">
         <span class="task-action-list badge">{{task.priority}}</span>
-        <a class="task-action-list pull-right" ng-click="complete(task)"><span class="glyphicon glyphicon-ok"/></a>
-        <a class="task-action-list pull-right" ng-href="/tasks/{{task.id}}"><span class="glyphicon glyphicon-pencil"/></a>
-        <a class="task-action-list pull-right" ng-click="deleteTask(task)"><span class="glyphicon glyphicon-trash"/></a>
+        <a class="task-action-list pull-right" ng-click="events.complete(task)"><span class="glyphicon glyphicon-ok"/></a>
+        <a class="task-action-list pull-right" ng-href="#/tasks/{{task.id}}"><span class="glyphicon glyphicon-pencil"/></a>
+        <a class="task-action-list pull-right" ng-click="events.deleteTask(task)"><span class="glyphicon glyphicon-trash"/></a>
         <h4 class="list-group-item-heading">{{task.name}} ({{task.dueDate | date : 'shortDate'}})</h4>
     </div>
 </div>

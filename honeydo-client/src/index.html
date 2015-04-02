@@ -32,8 +32,8 @@
                            required
                            ng-model="currentUser.password">
                 </span>
-                <button ng-show="!currentUser.isLoggedIn()" class="btn btn-default btn-primary" ng-click="login()">Sign In</button>
-                <button ng-show="currentUser.isLoggedIn()" class="btn btn-default btn-primary" ng-click="openCreateTaskModal()">
+                <button ng-show="!currentUser.isLoggedIn()" class="btn btn-default btn-primary" ng-click="events.login()">Sign In</button>
+                <button ng-show="currentUser.isLoggedIn()" class="btn btn-default btn-primary" ng-click="events.openCreateTaskModal()">
                     <span class="glyphicon glyphicon-plus"> Create</span>
                 </button>
             </form>
@@ -41,7 +41,7 @@
             <li ng-show="currentUser.isLoggedIn()">
                 <div class="navbar-text">Hello {{currentUser.firstName}}!</div>
             </li>
-            <ngc-navbar-link link-class="navbar-btn btn btn-default" show="currentUser.isLoggedIn()" click="logout()" label="Log Out"></ngc-navbar-link>
+            <ngc-navbar-link link-class="navbar-btn btn btn-default" show="currentUser.isLoggedIn()" click="events.logout()" label="Log Out"></ngc-navbar-link>
 
         </ngc-navbar>
  		<div ngc-loading image="assets/img/ajax-loader.gif">

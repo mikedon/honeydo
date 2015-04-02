@@ -4,7 +4,9 @@ module honeydo {
     
     export interface TaskSearchCtrlScope extends ng.IScope{
         tasks:Task[];
-        sortBy:SORT_BY;
+        sortBy:Object;
+        sortByOptions:Object[];
+        events:TaskSearchCtrl;
     }
 
     export class TaskSearchCtrl {
@@ -20,11 +22,26 @@ module honeydo {
             $scope.$on('task.create', (event: any, task: Task) => {
                 this.$scope.tasks.push(task);
             });
-            //$scope.sortByOptions = SORT_BY;
-            $scope.sortBy = SORT_BY.DUE_DATE;
+            $scope.sortByOptions = [
+                {
+                    name: "Due Date",
+                    value: "dueDate"
+                },
+                {
+                    name: "Priority",
+                    value: "priority"
+                },
+                {
+                    name: "Name",
+                    value: "name"
+                }
+
+            ]
+            $scope.sortBy = $scope.sortByOptions[0];
+            $scope.events = this;
         }
-        sort(sortBy:string){
-            this.$scope.sortBy = SORT_BY[sortBy];
+        sort(sortBy:Object){
+            this.$scope.sortBy = sortBy;
         }
         deleteTask(task:honeydo.Task){
             var idToDelete = task.id;
@@ -48,6 +65,8 @@ module honeydo {
     export interface CreateTaskModalScope extends ng.IScope {
         task: Task;
         opened: boolean;
+        events:CreateTaskModalInstanceCtrl;
+        priorities:Object[];
     }
 
     export class CreateTaskModalInstanceCtrl{
@@ -58,12 +77,32 @@ module honeydo {
             'data'
         ];
         constructor(private $scope: CreateTaskModalScope, private $rootScope: ng.IRootScopeService, private $modalInstance: ng.ui.bootstrap.IModalServiceInstance, private data: ngCommonsResource.IDataService){
-            // $scope.priorities = honeydo.TASK_PRIORITY;
+            $scope.priorities = [
+                {
+                    name: "Critical",
+                    value: 1
+                },
+                {
+                    name: "High",
+                    value: 2
+                },
+                {
+                    name: "Medium",
+                    value: 3
+                },
+                {
+                    name: "Low",
+                    value: 4
+                }
+            ];
             $scope.task = {
-                dueDate: 0,
-                name: "",
-                id: 0
+                dueDate: Date.now(),
+                name: null,
+                id: null,
+                priority: TASK_PRIORITY.MEDIUM
             };
+            $scope.events = this;
+            $scope.opened = false;
         }
         cancel() {
             this.$modalInstance.dismiss('cancel');

@@ -6,11 +6,10 @@ module honeydo {
 		id:number;
 		name: string;
 		dueDate: number;
+		priority:TASK_PRIORITY;
 	}
 
-	export enum SORT_BY {DUE_DATE, NAME, PRIORITY};
-
-	export enum TASK_PRIORITY {CRITICAL, HIGH, MEDIUM, LOW}
+	export enum TASK_PRIORITY {CRITICAL=1, HIGH, MEDIUM, LOW}
 
 	export interface Spouse {
 		id: string;

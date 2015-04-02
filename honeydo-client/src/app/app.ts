@@ -98,6 +98,7 @@ module honeydo {
 
     export interface NavbarCtrlScope extends ng.IScope {
         currentUser:ngCommonsUser.IUserService;
+        events:NavbarCtrl;
     }
 
     export class NavbarCtrl {
@@ -108,6 +109,7 @@ module honeydo {
         ]
         constructor(private $scope: NavbarCtrlScope, private User : ngCommonsUser.IUserService, private $modal : ng.ui.bootstrap.IModalService){
             $scope.currentUser = User;
+            $scope.events = this;
         }
         login() {
             this.User.login("task/search");
