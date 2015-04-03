@@ -6,27 +6,35 @@ module honeydo {
         'config',
         'templates-app',
         'ngResource', 
-        'ngRoute', 
+        'ui.router', 
         'ui.bootstrap',
         'ng-commons',
         'ngMockE2E'
-    ]);  
-    
-    app.config(["$routeProvider", "$tooltipProvider", "$httpProvider", 
-    function($routeProvider: ng.route.IRouteProvider, $tooltipProvider : ng.ui.bootstrap.ITooltipProvider, $httpProvider: ng.IHttpProvider){
+    ]);
+
+    app.config(["$stateProvider", "$urlRouterProvider", "$tooltipProvider", "$httpProvider", 
+    function($stateProvider: ng.ui.IStateProvider, $urlRouterProvider : ng.ui.IUrlRouterProvider, $tooltipProvider : ng.ui.bootstrap.ITooltipProvider, $httpProvider: ng.IHttpProvider){
         //global options for tool tips
         $tooltipProvider.options({trigger: 'focus'});
         $httpProvider.defaults.withCredentials = true;
 
-        $routeProvider.when('/home', {
-            templateUrl:'home/home.tpl.html',
+        $urlRouterProvider.otherwise("/home");
+        $stateProvider.state("home",{
+            url: "/home",
+            templateUrl: "home/home.tpl.html",
             resolve: {
                 user: ['User', function(User: ngCommonsUser.IUserService): ng.IPromise<any> {
                     return User.initialize();
                 }]
+            },
+            controller: function($scope: ng.IScope, $state: ng.ui.IStateService, User : ngCommonsUser.IUserService){
+                if(User.isLoggedIn()){
+                    $state.go("tasks");
+                }
             }
         });
-        $routeProvider.when('/task/search', {
+        $stateProvider.state('tasks', {
+            url: "/task/search",
             templateUrl: 'task/search.tpl.html',
             controller: 'TaskSearchCtrl',
             resolve: {
@@ -36,10 +44,10 @@ module honeydo {
                 tasks : ['data', function(data: ngCommonsResource.IDataService): ng.IPromise<any> {
                     return data.query("tasks");
                 }]
-            },
-            access: {requiresLogin: true, role: "User"}
+            }
         });
-        $routeProvider.when('/registration', {
+        $stateProvider.state('registration', {
+            url: "/registration",
             templateUrl:'registration/registration.tpl.html',
             controller: 'RegistrationCtrl',
             resolve: {
@@ -48,8 +56,6 @@ module honeydo {
                 }]
             }
         });
-
-        $routeProvider.otherwise({redirectTo: '/home'});
     }]);
 
     /**
@@ -112,7 +118,7 @@ module honeydo {
             $scope.events = this;
         }
         login() {
-            this.User.login("task/search");
+            this.User.login("tasks");
         }
         logout() {
             this.User.logout('home');

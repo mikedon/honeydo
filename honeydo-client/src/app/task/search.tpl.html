@@ -15,7 +15,7 @@
          ng-repeat="task in tasks | orderBy:sortBy.value">
         <span class="task-action-list badge">{{task.priority}}</span>
         <a class="task-action-list pull-right" ng-click="events.complete(task)"><span class="glyphicon glyphicon-ok"/></a>
-        <a class="task-action-list pull-right" ng-href="#/tasks/{{task.id}}"><span class="glyphicon glyphicon-pencil"/></a>
+        <a class="task-action-list pull-right" ui-sref="tasks.detail({id : task.id})"><span class="glyphicon glyphicon-pencil"/></a>
         <a class="task-action-list pull-right" ng-click="events.deleteTask(task)"><span class="glyphicon glyphicon-trash"/></a>
         <h4 class="list-group-item-heading">{{task.name}} ({{task.dueDate | date : 'shortDate'}})</h4>
     </div>

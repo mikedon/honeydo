@@ -37,7 +37,7 @@
                     <span class="glyphicon glyphicon-plus"> Create</span>
                 </button>
             </form>
-            <ngc-navbar-link link-class="navbar-btn btn btn-default" href="#/registration" show="!currentUser.isLoggedIn()" label="Register"></ngc-navbar-link>
+            <ngc-navbar-link link-class="navbar-btn btn btn-default" ui-sref="registration" show="!currentUser.isLoggedIn()" label="Register"></ngc-navbar-link>
             <li ng-show="currentUser.isLoggedIn()">
                 <div class="navbar-text">Hello {{currentUser.firstName}}!</div>
             </li>
@@ -47,7 +47,7 @@
  		<div ngc-loading image="assets/img/ajax-loader.gif">
         <div id="main" class="container clear-top">
             <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.message}}</alert>
-            <div ng-view></div>
+            <div ui-view></div>
         </div>
     </div>
   </body>
