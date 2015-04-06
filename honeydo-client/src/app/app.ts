@@ -20,23 +20,34 @@ module honeydo {
 
         $urlRouterProvider.otherwise("/home");
         $stateProvider.state("home",{
-            url: "/home",
-            templateUrl: "home/home.tpl.html",
+            views: {
+                'navbar' : {
+                    templateUrl: "common/navbar.tpl.html",
+                    controller: "NavbarCtrl"
+                },
+                'main' : {
+                    templateUrl: "home/home.tpl.html",
+                }
+            },
+            url: "/home",            
             resolve: {
                 user: ['User', function(User: ngCommonsUser.IUserService): ng.IPromise<any> {
                     return User.initialize();
                 }]
-            },
-            controller: function($scope: ng.IScope, $state: ng.ui.IStateService, User : ngCommonsUser.IUserService){
-                if(User.isLoggedIn()){
-                    $state.go("tasks");
-                }
             }
         });
         $stateProvider.state('tasks', {
+            views: {
+                'navbar' : {
+                    templateUrl: "common/navbar.tpl.html",
+                    controller: "NavbarCtrl"
+                },
+                'main' : {
+                    templateUrl: "task/search.tpl.html",
+                    controller: 'TaskSearchCtrl'
+                }
+            },
             url: "/task/search",
-            templateUrl: 'task/search.tpl.html',
-            controller: 'TaskSearchCtrl',
             resolve: {
                 user : ['User', function(User: ngCommonsUser.IUserService) : ng.IPromise<any> {
                     return User.initialize();
@@ -44,12 +55,24 @@ module honeydo {
                 tasks : ['data', function(data: ngCommonsResource.IDataService): ng.IPromise<any> {
                     return data.query("tasks");
                 }]
+            },
+            data: {
+                requiresLogin : true,
+                role: "User"
             }
         });
         $stateProvider.state('registration', {
+            views: {
+                'navbar' : {
+                    templateUrl: "common/navbar.tpl.html",
+                    controller: "NavbarCtrl"
+                },
+                'main' : {
+                    templateUrl: "registration/registration.tpl.html",
+                    controller: 'RegistrationCtrl'
+                }  
+            },
             url: "/registration",
-            templateUrl:'registration/registration.tpl.html',
-            controller: 'RegistrationCtrl',
             resolve: {
                 spouses: ['data', function(data: ngCommonsResource.IDataService) : ng.IPromise<any>{
                     return data.query("spouses");
@@ -58,82 +81,31 @@ module honeydo {
         });
     }]);
 
-    /**
-    * http://blog.brunoscopelliti.com/deal-with-users-authentication-in-an-angularjs-web-app
-    *
-    * http://blog.brunoscopelliti.com/show-route-only-after-all-promises-are-resolved
-    */
-    app.run(['$rootScope', '$location', '$timeout', 'User', 'api',
-    function ($root: ngCommons.NgCommonsRootScope, $location: ng.ILocationService, $timeout: ng.ITimeoutService, User : ngCommonsUser.IUserService, api: ngCommonsResource.IApiService){
+    app.run(['$rootScope', '$state', '$timeout', 'User', 'api',
+    function ($root: ngCommons.NgCommonsRootScope, $state: ng.ui.IStateService, $timeout: ng.ITimeoutService, User : ngCommonsUser.IUserService, api: ngCommonsResource.IApiService){
         api.add("tasks");
         api.add("spouses");
         api.add("users");
 
-        $root.$on('$routeChangeStart', function(e, curr, prev) {
-            if (curr.$$route && curr.$$route.resolve) {
-                // Show a loading message until promises are not resolved
-                $root.loadingView = true;
-            }
-        });
-        $root.$on('$routeChangeSuccess', function(event, currRoute){
-            $root.loadingView = false;
-            //clear out error msgs...better way?
+        $root.$on("$stateChangeStart", (event, next) => {
+            $root.loadingView = true;
             if($root.clearAlerts){
                 $root.alerts = [];
             }
             $root.clearAlerts = true;
-            if(currRoute.access && currRoute.access.requiresLogin){
-                if(!User.isLoggedIn()){
-                    $root.captureRedirect = $location.path();
-                    $root.clearAlerts = false;
-                    $root.alerts = [{type:ngCommons.AlertType.WARNING, message:'Please login first.'}];
-                    $location.path("/login");
-                }else if(!User.hasRole(currRoute.access.role)){
-                    $location.path("/");
-                }else if(currRoute.access.validate){
-                    var validateResponse = currRoute.access.validate(currRoute.locals);
-                    if(validateResponse){
-                        $root.clearAlerts = false;
-                        $root.alerts = [{type:ngCommons.AlertType.WARNING, message:validateResponse.msg}];
-                        $location.path(validateResponse.path);
-                    }
-                }
+        });
+        $root.$on('$stateChangeSuccess', (event, next) => {
+            if(next.data && next.data.requiresLogin && !User.isLoggedIn()){
+                $root.captureRedirect = $state.current;
+                $root.clearAlerts = false;
+                $root.alerts = [{type:ngCommons.AlertType[ngCommons.AlertType.danger], message:'Please login first.'}];
+                event.preventDefault();
+                $state.go("home");       
+            }else if(next.data && next.data.role && User.isLoggedIn() && !User.hasRole(next.data.role)){
+                event.preventDefault();
+                $state.go("home");
             }
+            $root.loadingView = false;            
         });
     }]);
-
-    export interface NavbarCtrlScope extends ng.IScope {
-        currentUser:ngCommonsUser.IUserService;
-        events:NavbarCtrl;
-    }
-
-    export class NavbarCtrl {
-        public static $inject = [
-            '$scope',
-            'User',
-            '$modal'
-        ]
-        constructor(private $scope: NavbarCtrlScope, private User : ngCommonsUser.IUserService, private $modal : ng.ui.bootstrap.IModalService){
-            $scope.currentUser = User;
-            $scope.events = this;
-        }
-        login() {
-            this.User.login("tasks");
-        }
-        logout() {
-            this.User.logout('home');
-        }
-        openCreateTaskModal() {
-            var createTaskModalInstance = this.$modal.open({
-                templateUrl: 'task/task-create-modal.tpl.html',
-                controller: 'CreateTaskModalInstanceCtrl',
-                resolve: {
-                    //items: function () {
-                    //    return $scope.items;
-                    //}
-                }
-            });            
-        }
-    }
-    app.controller('NavbarCtrl', NavbarCtrl);
 }

@@ -23,7 +23,7 @@ module.exports = function ( grunt ) {
                 options: {
                     port: 8000,
                     hostname: 'localhost',
-                    keepalive: false
+                    keepalive: true
                 }
             }
         },

@@ -17,7 +17,7 @@ module honeydo {
             'data',
             'spouses'
         ]
-        constructor(private $scope: RegistrationCtrlScope, private $rootScope: ngCommons.NgCommonsRootScope, private $location: ng.ILocationService, private data : ngCommonsResource.IDataService, private spouses: Spouse[]){
+        constructor(private $scope: RegistrationCtrlScope, private $rootScope: ngCommons.NgCommonsRootScope, private $state: ng.ui.IStateService, private data : ngCommonsResource.IDataService, private spouses: Spouse[]){
             $scope.spouses = spouses;
             $scope.registration = {
                 id: 0,
@@ -30,13 +30,13 @@ module honeydo {
         }
         register() {
             if(this.$scope.registrationForm.$valid){
-                var path = "task/search";
+                var state = "tasks";
                 if(this.$rootScope.captureRedirect){
-                    path = this.$rootScope.captureRedirect;
+                    state = this.$rootScope.captureRedirect.name;
                 }
                 this.data.save("users", this.$scope.registration).then((data:any) => {
                     this.$rootScope.clearAlerts = false;
-                    this.$location.path(path);
+                    this.$state.go(state);
                 });
             }else{
                 this.$scope.registrationForm.$submitted = true;

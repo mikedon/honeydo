@@ -13,41 +13,11 @@
     <script type="text/javascript" src="<%= file %>"></script><% }); %>
   </head>
   <body>
-	 <div id="wrap" ng-controller="NavbarCtrl">
-        <ngc-navbar brand="HoneyDo" brand-img="assets/img/icon.png">
-            <form name="navbarForm" class="navbar-form navbar-left" novalidate>
-                <span ng-show="!currentUser.isLoggedIn()" ngc-input>
-                    <input type="userId"
-                           id="userId"
-                           name="userId"
-                           placeholder="User Id"
-                           required
-                           ng-model="currentUser.username">
-                </span>
-                <span class="form-group" ng-show="!currentUser.isLoggedIn()" ngc-input>
-                    <input type="password"
-                           id="password"
-                           name="password"
-                           placeholder="Password"
-                           required
-                           ng-model="currentUser.password">
-                </span>
-                <button ng-show="!currentUser.isLoggedIn()" class="btn btn-default btn-primary" ng-click="events.login()">Sign In</button>
-                <button ng-show="currentUser.isLoggedIn()" class="btn btn-default btn-primary" ng-click="events.openCreateTaskModal()">
-                    <span class="glyphicon glyphicon-plus"> Create</span>
-                </button>
-            </form>
-            <ngc-navbar-link link-class="navbar-btn btn btn-default" ui-sref="registration" show="!currentUser.isLoggedIn()" label="Register"></ngc-navbar-link>
-            <li ng-show="currentUser.isLoggedIn()">
-                <div class="navbar-text">Hello {{currentUser.firstName}}!</div>
-            </li>
-            <ngc-navbar-link link-class="navbar-btn btn btn-default" show="currentUser.isLoggedIn()" click="events.logout()" label="Log Out"></ngc-navbar-link>
-
-        </ngc-navbar>
+        <div ui-view="navbar"></div>
  		<div ngc-loading image="assets/img/ajax-loader.gif">
         <div id="main" class="container clear-top">
             <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.message}}</alert>
-            <div ui-view></div>
+            <div ui-view="main"></div>
         </div>
     </div>
   </body>
