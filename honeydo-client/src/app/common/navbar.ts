@@ -5,6 +5,7 @@ module honeydo {
         currentUser:ngCommonsUser.IUserService;
         events:NavbarCtrl;
         navbarForm:ng.IFormController;
+        homeState:string;
     }
 
     export class NavbarCtrl {
@@ -16,6 +17,11 @@ module honeydo {
         constructor(private $scope: NavbarCtrlScope, private User : ngCommonsUser.IUserService, private $modal : ng.ui.bootstrap.IModalService){
             $scope.currentUser = User;
             $scope.events = this;
+            if($scope.currentUser.isLoggedIn()){
+                $scope.homeState = "tasks";
+            }else{
+                $scope.homeState = "home";
+            }
         }
         login() {
         	this.$scope.currentUser.login("tasks");          

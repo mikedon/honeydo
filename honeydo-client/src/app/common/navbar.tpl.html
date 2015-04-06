@@ -1,5 +1,5 @@
 <div id="wrap" ng-controller="NavbarCtrl">
-    <ngc-navbar brand="HoneyDo" brand-img="assets/img/icon.png">    
+    <ngc-navbar brand="HoneyDo" brand-img="assets/img/icon.png" state="{{homeState}}">    
         <form name="navbarForm" class="navbar-form navbar-left" novalidate>
             <span ng-show="!currentUser.isLoggedIn()" ngc-input required-msg="Value is required">
                 <input type="userId"
