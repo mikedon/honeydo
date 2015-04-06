@@ -7,7 +7,7 @@
                     name="userId"
                     placeholder="User Id"
                     required
-                    ng-model="currentUser.username">
+                    ng-model="currentUser.user.username">
             </span>
             <span class="form-group" ng-show="!currentUser.isLoggedIn()" ngc-input required-msg="Value is required">
                 <input type="password"
@@ -15,7 +15,7 @@
                     name="password"
                     placeholder="Password"
                     required
-                    ng-model="currentUser.password">
+                    ng-model="currentUser.user.password">
             </span>
             <button ng-show="!currentUser.isLoggedIn()" class="btn btn-default btn-primary" ng-click="navbarForm.$valid && events.login()">Sign In</button>
             <button ng-show="currentUser.isLoggedIn()" class="btn btn-default btn-primary" ng-click="events.openCreateTaskModal()">
